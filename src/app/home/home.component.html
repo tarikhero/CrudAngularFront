@@ -280,18 +280,22 @@
 
 <div class="content" role="main">
     <div>
-        <form align="center" valign="middle" [formGroup]="form">
-            <h1>Criar um novo cadastro</h1>
+        <form align="center" valign="middle" [formGroup]="form" ngNativeValidate>
 
-            <input type="text" id="nome " placeholder="Nome" formControlName="nome" autocomplete="off" required>
+            <h1 *ngIf="actionName === 'Cadastrar'; else edita"> Criar um novo cadastro</h1>
+            <ng-template #edita>
+                <h1>Editar cadastro existente</h1>
+            </ng-template>
+
+            <input type="text" id="nome" placeholder="Nome" formControlName="nome" autocomplete="off" required>
             <br> <br>
 
             <input type="number" id="idade" placeholder="Idade" formControlName="idade" autocomplete="off" required>
             <br> <br>
 
-            <button *ngIf="actionName === 'Cadastrar'; else update" (click)="onSubmit()">{{ actionName }}</button>
+            <button *ngIf="actionName === 'Cadastrar'; else update" (click)="onSubmit()" [disabled]="!form.valid">{{ actionName }}</button>
             <ng-template #update>
-                <button (click)="atualizar(usuario.id)">{{ actionName }}</button>
+                <button (click)="atualizar(usuario.id)" [disabled]="!form.valid" >{{ actionName }}</button>
                 <button (click)="backSignUp()">Voltar</button>
             </ng-template>
         </form>
@@ -300,7 +304,7 @@
     <br><br><br><br><br>
 
     <div>
-        <table align="center" border="1" class="table">
+        <table align="center" border="1" id=“rwd-table” class="rwd-table">
             <thead>
                 <tr>
                     <td></td>
